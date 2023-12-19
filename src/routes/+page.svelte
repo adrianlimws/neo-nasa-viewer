@@ -13,6 +13,7 @@
 	let neos = [];
 	let currentNeoIndex = 0;
 	let earthTexture;
+
 	async function fetchData() {
 		try {
 			// console.log('Fetching data for neo:', neo);
@@ -78,7 +79,7 @@
 
 	<div class="canvas-container">
 		<Canvas>
-			<T.PerspectiveCamera makeDefault position={[0, 100, 60]} fov={96}>
+			<T.PerspectiveCamera makeDefault position={[0, 40, 40]} fov={35}>
 				<OrbitControls
 					autoRotate
 					enableZoom={true}
@@ -96,7 +97,7 @@
 				cellColor="#fff"
 				sectionColor="#fff"
 				sectionThickness={0}
-				fadeDistance={50}
+				fadeDistance={100}
 				cellSize={2}
 			/>
 			<T.Mesh position={[0, 5, 0]}>
@@ -112,7 +113,7 @@
 
 			<T.Mesh position={[-75, 5, 0]}>
 				<T.SphereGeometry args={[62, 64, 64]} />
-				<T.MeshStandardMaterial color="blue" />
+				<T.MeshStandardMaterial color="#0e2e53" />
 			</T.Mesh>
 		</Canvas>
 	</div>
@@ -162,10 +163,13 @@
 	:global(body) {
 		margin: 0;
 		background: rgb(13, 19, 32);
-		background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgb(63, 63, 63) 100%);
+		background: linear-gradient(180deg, rgb(0, 0, 0) 0%, rgbrgb(22, 22, 22) 0%);
 	}
 	.canvas-container {
 		width: 100%;
 		height: 100vh;
+		background: url('$lib/textures/8k_stars.jpg');
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
 	}
 </style>
