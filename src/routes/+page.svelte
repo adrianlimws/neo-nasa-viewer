@@ -88,7 +88,7 @@
 				<p class="font-bold text-3xl text-white py-2">{neos[currentNeoIndex].name}</p>
 			</div>
 
-			<div class="stats stats-vertical lg:stats-horizontal">
+			<div class="stats stats-vertical lg:stats-horizontal flex-1">
 				<div class="stat">
 					<div class="stat-title">Min. Diameter</div>
 					<div class="stat-value">
@@ -121,43 +121,75 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="overflow-x-auto text-white">
-				<table class="table">
-					<tbody>
-						<tr>
-							<th>First Observed:</th>
-							<td>
-								{new Date(
-									neos[currentNeoIndex].orbital_data.first_observation_date
-								).toLocaleDateString('en-US', {
-									weekday: 'long', // 'long', 'short', or 'narrow'
-									month: 'long', // 'long', 'short', or 'numeric'
-									day: 'numeric',
-									year: 'numeric'
-								})}</td
-							>
-						</tr>
-						<tr>
-							<th>Last Observed:</th>
-							<td
-								>{new Date(
-									neos[currentNeoIndex].orbital_data.last_observation_date
-								).toLocaleDateString('en-US', {
-									weekday: 'long', // 'long', 'short', or 'narrow'
-									month: 'long', // 'long', 'short', or 'numeric'
-									day: 'numeric',
-									year: 'numeric'
-								})}</td
-							>
-						</tr>
-						<!-- row 3 -->
-						<tr>
-							<th>3</th>
-							<td>Brice Swyre</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="border border-slate-600 collapse collapse-arrow text-white">
+				<input type="radio" name="my-accordion-2" checked="checked" />
+				<div class="collapse-title text-xl font-medium">Orbital Data</div>
+				<div class="collapse-content">
+					<div class="overflow-x-auto text-white">
+						<table class="table">
+							<tbody>
+								<tr>
+									<th>First Observed:</th>
+									<td>
+										{new Date(
+											neos[currentNeoIndex].orbital_data.first_observation_date
+										).toLocaleDateString('en-US', {
+											weekday: 'long', // 'long', 'short', or 'narrow'
+											month: 'long', // 'long', 'short', or 'numeric'
+											day: 'numeric',
+											year: 'numeric'
+										})}</td
+									>
+								</tr>
+								<tr>
+									<th>Last Observed:</th>
+									<td
+										>{new Date(
+											neos[currentNeoIndex].orbital_data.last_observation_date
+										).toLocaleDateString('en-US', {
+											weekday: 'long', // 'long', 'short', or 'narrow'
+											month: 'long', // 'long', 'short', or 'numeric'
+											day: 'numeric',
+											year: 'numeric'
+										})}</td
+									>
+								</tr>
+								<!-- row 3 -->
+								<tr>
+									<th>3</th>
+									<td>Brice Swyre</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="border border-slate-600 collapse collapse-arrow text-white">
+				<input type="radio" name="my-accordion-2" checked="checked" />
+				<div class="collapse-title text-xl font-medium">Close Approach Data</div>
+				<div class="collapse-content">
+					{#each neos[currentNeoIndex].close_approach_data as closeApproachData}
+						{#if new Date(closeApproachData.close_approach_date).getFullYear() <= new Date().getFullYear() + 1}
+							<ul class="steps">
+								<li
+									class="step {new Date(closeApproachData.close_approach_date).getFullYear() ===
+									new Date().getFullYear()
+										? 'step-success'
+										: 'step-warning'}"
+									data-content={new Date(closeApproachData.close_approach_date).getFullYear() ===
+									new Date().getFullYear()
+										? '✓'
+										: '!'}
+								>
+									{new Date(closeApproachData.close_approach_date).toLocaleString('en-US', {
+										month: 'numeric',
+										year: 'numeric'
+									})}
+								</li>
+							</ul>
+						{/if}
+					{/each}
+				</div>
 			</div>
 		{:else}
 			<p>Loading...</p>
