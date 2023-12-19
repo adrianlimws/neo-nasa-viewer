@@ -123,6 +123,44 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="overflow-x-auto text-white">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>First Observed:</th>
+							<td>
+								{new Date(
+									neos[currentNeoIndex].orbital_data.first_observation_date
+								).toLocaleDateString('en-US', {
+									weekday: 'long', // 'long', 'short', or 'narrow'
+									month: 'long', // 'long', 'short', or 'numeric'
+									day: 'numeric',
+									year: 'numeric'
+								})}</td
+							>
+						</tr>
+						<tr>
+							<th>Last Observed:</th>
+							<td
+								>{new Date(
+									neos[currentNeoIndex].orbital_data.last_observation_date
+								).toLocaleDateString('en-US', {
+									weekday: 'long', // 'long', 'short', or 'narrow'
+									month: 'long', // 'long', 'short', or 'numeric'
+									day: 'numeric',
+									year: 'numeric'
+								})}</td
+							>
+						</tr>
+						<!-- row 3 -->
+						<tr>
+							<th>3</th>
+							<td>Brice Swyre</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		{:else}
 			<p>Loading...</p>
 		{/if}
