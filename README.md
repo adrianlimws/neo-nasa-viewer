@@ -1,7 +1,7 @@
 # Near Earth Object Viewer
+
 [Demo site](https://neoviewer.netlify.app).
 
-### Sveltekit
-### Netlify
-### NASA Open API
+### Built with Sveltekit, Deployed on Netlify
 
+### Using NASA Open API
