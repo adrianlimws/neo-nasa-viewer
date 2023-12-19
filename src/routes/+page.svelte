@@ -198,12 +198,10 @@
 				<T.MeshStandardMaterial color="red" roughness={8} metalness={0} />
 			</T.Mesh>
 
-			{#await useTexture('./lib/textures/earth.jpg') then earthTexture}
-				<T.Mesh position={[-75, 5, 0]}>
-					<T.SphereGeometry args={[62, 64, 64]} />
-					<T.MeshStandardMaterial color="#0e2e53" map={earthTexture} />
-				</T.Mesh>
-			{/await}
+			<T.Mesh position={[-75, 5, 0]}>
+				<T.SphereGeometry args={[62, 64, 64]} />
+				<T.MeshStandardMaterial color="#0e2e53" />
+			</T.Mesh>
 		</Canvas>
 	</div>
 
