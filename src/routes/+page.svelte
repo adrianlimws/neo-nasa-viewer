@@ -8,11 +8,11 @@
 
 	// Create a writable store for neo
 	const neoStore = writable(1);
+	// const earthTexture = useLoader(TextureLoader).load('/assets/8k_earth_daymap.jpg');
 
 	export let neo;
 	let neos = [];
 	let currentNeoIndex = 0;
-	let earthTexture;
 
 	async function fetchData() {
 		try {
@@ -35,14 +35,12 @@
 	$: {
 		neo = $neoStore;
 	}
-
+	let asteroid;
 	// Fetch data when the component is mounted
 	onMount(() => {
 		console.log('Component mounted with neo:', neo);
 		fetchData();
-		// const earthTexture = useLoader(TextureLoader).load('$lib/textures/8k_earth_daymap.jpg');
 	});
-
 	function changeNeoName(increment) {
 		currentNeoIndex += increment;
 
@@ -200,10 +198,12 @@
 				<T.MeshStandardMaterial color="red" roughness={8} metalness={0} />
 			</T.Mesh>
 
-			<T.Mesh position={[-75, 5, 0]}>
-				<T.SphereGeometry args={[62, 64, 64]} />
-				<T.MeshStandardMaterial color="#0e2e53" />
-			</T.Mesh>
+			{#await useTexture('./lib/textures/earth.jpg') then earthTexture}
+				<T.Mesh position={[-75, 5, 0]}>
+					<T.SphereGeometry args={[62, 64, 64]} />
+					<T.MeshStandardMaterial color="#0e2e53" map={earthTexture} />
+				</T.Mesh>
+			{/await}
 		</Canvas>
 	</div>
 
