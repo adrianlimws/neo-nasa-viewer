@@ -85,10 +85,10 @@
 			{/if}
 
 			<div class="">
-				<p class="font-bold text-3xl text-white py-2">{neos[currentNeoIndex].name}</p>
+				<p class="font-bold text-xl text-white py-2">{neos[currentNeoIndex].name}</p>
 			</div>
 
-			<div class="stats stats-vertical lg:stats-horizontal flex-1">
+			<div class="my-2 stats stats-vertical lg:stats-horizontal w-96">
 				<div class="stat">
 					<div class="stat-title">Min. Diameter</div>
 					<div class="stat-value">
@@ -121,7 +121,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="border border-slate-600 collapse collapse-arrow text-white">
+
+			<div class="mb-2 border border-slate-600 collapse collapse-arrow text-white">
 				<input type="radio" name="my-accordion-2" checked="checked" />
 				<div class="collapse-title text-xl font-medium">Orbital Data</div>
 				<div class="collapse-content">
@@ -134,8 +135,8 @@
 										{new Date(
 											neos[currentNeoIndex].orbital_data.first_observation_date
 										).toLocaleDateString('en-US', {
-											weekday: 'long', // 'long', 'short', or 'narrow'
-											month: 'long', // 'long', 'short', or 'numeric'
+											weekday: 'long',
+											month: 'long',
 											day: 'numeric',
 											year: 'numeric'
 										})}</td
@@ -147,8 +148,8 @@
 										>{new Date(
 											neos[currentNeoIndex].orbital_data.last_observation_date
 										).toLocaleDateString('en-US', {
-											weekday: 'long', // 'long', 'short', or 'narrow'
-											month: 'long', // 'long', 'short', or 'numeric'
+											weekday: 'long',
+											month: 'long',
 											day: 'numeric',
 											year: 'numeric'
 										})}</td
@@ -156,8 +157,20 @@
 								</tr>
 								<!-- row 3 -->
 								<tr>
-									<th>3</th>
-									<td>Brice Swyre</td>
+									<th>Last Seen</th>
+									<td
+										>{new Date(
+											neos[currentNeoIndex].orbital_data.orbit_determination_date
+										).toLocaleString('en-US', {
+											weekday: 'long',
+											month: 'long',
+											day: 'numeric',
+											year: 'numeric',
+											hour: 'numeric',
+											minute: 'numeric',
+											second: 'numeric'
+										})}</td
+									>
 								</tr>
 							</tbody>
 						</table>
@@ -165,29 +178,29 @@
 				</div>
 			</div>
 			<div class="border border-slate-600 collapse collapse-arrow text-white">
-				<input type="radio" name="my-accordion-2" checked="checked" />
-				<div class="collapse-title text-xl font-medium">Close Approach Data</div>
+				<input type="radio" name="my-accordion-2" />
+				<div class="collapse-title text-xl font-medium">Next Close Approach Dates</div>
 				<div class="collapse-content">
-					{#each neos[currentNeoIndex].close_approach_data as closeApproachData}
-						{#if new Date(closeApproachData.close_approach_date).getFullYear() <= new Date().getFullYear() + 1}
-							<ul class="steps">
-								<li
-									class="step {new Date(closeApproachData.close_approach_date).getFullYear() ===
-									new Date().getFullYear()
-										? 'step-success'
-										: 'step-warning'}"
-									data-content={new Date(closeApproachData.close_approach_date).getFullYear() ===
-									new Date().getFullYear()
-										? '✓'
-										: '!'}
-								>
-									{new Date(closeApproachData.close_approach_date).toLocaleString('en-US', {
-										month: 'numeric',
-										year: 'numeric'
-									})}
-								</li>
-							</ul>
-						{/if}
+					{#each neos[currentNeoIndex].close_approach_data
+						.filter((closeApproachData) => new Date(closeApproachData.close_approach_date).getFullYear() > new Date().getFullYear())
+						.slice(0, 5) as closeApproachData}
+						<ul class="steps">
+							<li
+								class="step {new Date(closeApproachData.close_approach_date).getFullYear() ===
+								new Date().getFullYear()
+									? 'step-success'
+									: 'step-info'}"
+								data-content={new Date(closeApproachData.close_approach_date).getFullYear() ===
+								new Date().getFullYear()
+									? '✓'
+									: '!'}
+							>
+								{new Date(closeApproachData.close_approach_date).toLocaleString('en-US', {
+									month: 'numeric',
+									year: 'numeric'
+								})}
+							</li>
+						</ul>
 					{/each}
 				</div>
 			</div>
