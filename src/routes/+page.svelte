@@ -1,11 +1,13 @@
 <script>
 	import '../app.css';
-	import { T } from '@threlte/core';
+	import { T, Canvas } from '@threlte/core';
 	import { ContactShadows, Float, Grid, OrbitControls } from '@threlte/extras';
-	import { Canvas } from '@threlte/core';
+
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-
+	// import { TextureLoader } from 'three';
+	// import earthTexturePath from '$lib/textures/8k_earth_daymap.jpg';
+	// const earthTexture = new TextureLoader().load(earthTexturePath);
 	// Create a writable store for sol
 	const neoStore = writable(1);
 
@@ -21,10 +23,10 @@
 				`https://api.nasa.gov/neo/rest/v1/neo/browse?api_key=Y539x3gNFZbriWjlPKavmFxgZojJYtHxFZcoQ1Ku`
 			);
 			const responseData = await response.json();
-			// Extract the photos array from the response
+			// Extract the neos array from the response
 			neos = responseData.near_earth_objects || [];
 			// Handle data as needed
-			console.log('Fetched data:', neos);
+			// console.log('Fetched data:', neos);
 			return neos;
 		} catch (error) {
 			console.error('Error fetching data:', error);
@@ -42,14 +44,6 @@
 		fetchData();
 	});
 
-	// Function to handle input changes and update neo
-	// function handleInputChange(event) {
-	// 	const inputValue = parseInt(event.target.value, 10);
-	// 	if (!isNaN(inputValue)) {
-	// 		neoStore.set(Math.max(1, inputValue));
-	// 	}
-	// }
-
 	function changeNeoName(increment) {
 		currentNeoIndex += increment;
 
@@ -64,6 +58,21 @@
 <main class="flex">
 	{#if neos.length > 0}
 		<div class="">
+			<div class="badge badge-lg">
+				ID: {neos[currentNeoIndex].id}
+			</div>
+			{#if neos[currentNeoIndex].is_potentially_hazardous_asteroid}
+				<div class="badge badge-error badge-lg">
+					<span>Potentially Hazardous Asteroid</span>
+				</div>
+			{:else}
+				<div class="badge badge-success badge-lg">
+					<span>Not Potentially Hazardous Asteroid</span>
+				</div>
+			{/if}
+		</div>
+
+		<div class="p-2">
 			<p class="font-bold text-3xl">Codename: {neos[currentNeoIndex].name}</p>
 		</div>
 		<div class="btm-nav border-t-2 border-black">
@@ -106,20 +115,20 @@
 			</button>
 		</div>
 	{/if}
-	<div class="canvas-container">
+	<div class="canvas-container basis-1/2">
 		<Canvas>
-			<T.PerspectiveCamera makeDefault position={[-15, 5, 10]} fov={15}>
+			<T.PerspectiveCamera makeDefault position={[-15, 5, 10]} fov={100}>
 				<OrbitControls
 					autoRotate
-					enableZoom={false}
+					enableZoom={true}
 					enableDamping
 					autoRotateSpeed={0.01}
 					target.y={1.5}
 				/>
 			</T.PerspectiveCamera>
 
-			<T.DirectionalLight intensity={0.8} position.x={5} position.y={10} />
-			<T.AmbientLight intensity={0.2} />
+			<T.DirectionalLight intensity={1} position.x={5} position.y={10} />
+			<T.AmbientLight intensity={1} />
 
 			<Grid
 				position.y={-0.001}
@@ -129,12 +138,13 @@
 				fadeDistance={25}
 				cellSize={2}
 			/>
-			<T.Mesh position={[-3, 2, 1.5]}>
+
+			<T.Mesh position={[0, 0, 0]}>
 				<T.BoxGeometry
 					args={[
-						0.1,
-						neos[currentNeoIndex].estimated_diameter.kilometers.estimated_diameter_min.toFixed(4),
-						0.0049
+						10,
+						neos[currentNeoIndex].estimated_diameter.miles.estimated_diameter_min,
+						neos[currentNeoIndex].estimated_diameter.miles.estimated_diameter_min
 					]}
 				/>
 				<T.MeshStandardMaterial color="red" />
