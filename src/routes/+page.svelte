@@ -8,14 +8,13 @@
 	// import { TextureLoader } from 'three';
 	// import earthTexturePath from '$lib/textures/8k_earth_daymap.jpg';
 	// const earthTexture = new TextureLoader().load(earthTexturePath);
-	// Create a writable store for sol
+	// Create a writable store for neo
 	const neoStore = writable(1);
 
 	export let neo;
 	let neos = [];
 	let currentNeoIndex = 0;
 
-	// Function to fetch data with the updated sol value
 	async function fetchData() {
 		try {
 			// console.log('Fetching data for neo:', neo);
@@ -55,22 +54,20 @@
 	}
 </script>
 
-<main class="flex">
+<main class="grid grid-cols-3 gap-4">
 	{#if neos.length > 0}
-		<div class="">
-			<div class="badge badge-lg">
-				ID: {neos[currentNeoIndex].id}
-			</div>
-			{#if neos[currentNeoIndex].is_potentially_hazardous_asteroid}
-				<div class="badge badge-error badge-lg">
-					<span>Potentially Hazardous Asteroid</span>
-				</div>
-			{:else}
-				<div class="badge badge-success badge-lg">
-					<span>Not Potentially Hazardous Asteroid</span>
-				</div>
-			{/if}
+		<div class="badge badge-lg">
+			ID: {neos[currentNeoIndex].id}
 		</div>
+		{#if neos[currentNeoIndex].is_potentially_hazardous_asteroid}
+			<div class="badge badge-error badge-lg">
+				<span>Potentially Hazardous Asteroid</span>
+			</div>
+		{:else}
+			<div class="badge badge-success badge-lg">
+				<span>Not Potentially Hazardous Asteroid</span>
+			</div>
+		{/if}
 
 		<div class="p-2">
 			<p class="font-bold text-3xl">Codename: {neos[currentNeoIndex].name}</p>
