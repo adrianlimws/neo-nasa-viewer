@@ -34,5 +34,13 @@
     "vite": "^5.0.3",
     "vitest": "^0.32.2"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@theatre/core": "^0.7.0",
+    "@theatre/studio": "^0.7.0",
+    "@threlte/flex": "^1.0.0",
+    "@threlte/gltf": "^2.0.1",
+    "@threlte/theatre": "^2.1.5",
+    "@types/three": "^0.159.0"
+  }
 }
