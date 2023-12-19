@@ -214,7 +214,7 @@
 			<T.PerspectiveCamera makeDefault position={[0, 40, 40]} fov={35}>
 				<OrbitControls
 					autoRotate
-					enableZoom={true}
+					enableZoom={false}
 					enableDamping
 					autoRotateSpeed={0.1}
 					target.y={1.5}
